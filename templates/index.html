@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Productos - Kiosco</title>
+</head>
+<body>
+  <h1>Gestión de Productos del Kiosco</h1>
+
+  
+  <h2>Crear Producto</h2>
+  <form action="/producto" method="POST">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required><br>
+    <label for="categoria">Categoría:</label>
+    <input type="text" id="categoria" name="categoria" required><br>
+    <label for="precio">Precio:</label>
+    <input type="number" step="0.01" id="precio" name="precio" required><br>
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" id="cantidad" name="cantidad" required><br>
+    <button type="submit">Crear Producto</button>
+  </form>
+
+  <hr>
+
+  
+  <h2>Filtrar Productos por Categoría</h2>
+  <form action="/" method="GET">
+    <label for="categoria_filtro">Categoría:</label>
+    <input type="text" id="categoria_filtro" name="categoria" placeholder="Ej: bebida, snack">
+    <button type="submit">Filtrar</button>
+  </form>
+
+  <hr>
+
+ 
+  <h2>Listado de Productos</h2>
+  <ul>
+    {% for producto in productos %}
+      <li>
+        {{ producto['nombre'] }} - {{ producto['categoria'] }} - Precio: {{ producto['precio'] }} - Stock: {{ producto['cantidad'] }}
+        <form action="/producto/{{ producto['_id'] }}" method="POST">
+          <input type="number" name="precio" placeholder="Nuevo precio" required>
+          <input type="number" name="cantidad" placeholder="Nueva cantidad" required>
+          <button type="submit">Actualizar</button>
+        </form>
+        <form action="/producto/{{ producto['_id'] }}/eliminar" method="POST">
+          <button type="submit">Eliminar</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
+
